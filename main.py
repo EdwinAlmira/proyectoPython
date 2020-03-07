@@ -1,4 +1,10 @@
+#imports
+import sys
+
+
+#Listado
 clients = 'pablo, gerardo, '
+
 
 #Create function
 def create_client(client_name):
@@ -10,10 +16,6 @@ def create_client(client_name):
     else:
         print('Client already in the client\'s list')
 
-def _add_coma():
-    global clients
-    
-    clients += ','
 
 #Update function
 def update_client(old_name, new_name):
@@ -23,8 +25,32 @@ def update_client(old_name, new_name):
         clients = clients.replace(old_name+',', new_name+',' )
         list_clients()
     else:
-        print('Client its not in client\'s list')
+        _not_register()
         pass
+
+
+#Delete function
+def delete_client(client_name):
+    global clients
+
+    if client_name in clients:
+        clients = clients.replace(client_name+',','')
+        list_clients()
+    else:
+        _not_register()
+        pass
+
+
+#Search function
+def search_client(client_name):
+    global clients
+    clients_list = clients.split(',')
+
+    for client in clients_list:
+        if client != client_name:
+            continue
+        else:
+            return True
 
 
 def list_clients():
@@ -32,20 +58,42 @@ def list_clients():
     
     print(clients)
 
-
+#Command list
 def print_welcome():
     print('Welcome to Project Ventas')
     print('*'*50)
     print('What would you like to do today? ')
     print('[C]reate client') 
     print('[D]elete client')
-    print('[U]pdate client')   
+    print('[U]pdate client')
+    print('[S]earch client')   
 
 
 #Privada
 def _client_question():
-    name_client = input('What is the client name? ') 
+    name_client = None
+
+    while not name_client:    
+        name_client = input('What is the client name? ')
+
+        if name_client == 'exit':
+            name_client = None
+            break 
+    #Cierra el programa    
+    if not name_client:
+        sys.exit()
+
     return name_client
+
+def _not_register():
+    print('Client its not in client\'s list')
+
+
+def _add_coma():
+    global clients
+    
+    clients += ','
+
 
 
 #Start point of the code
@@ -59,12 +107,19 @@ if __name__ == '__main__':
         create_client(client_name)
         list_clients()
     elif command == 'D':
-        pass
+        client_name = _client_question()
+        delete_client(client_name)
     elif command == 'U':
-        client_name = _client_question();
+        client_name = _client_question()
         new_name = input('What its the new client name? ')
         update_client(client_name,new_name)
-        pass
+    elif command == 'S':
+        client_name = _client_question()
+        found = search_client(client_name)
+        if found:
+            print('The client is in the  clienr\'s list')
+        else:
+            print('Client {} not found'.format(client_name))
     else:
         print('Invalid command')
  
