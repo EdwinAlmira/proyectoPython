@@ -106,20 +106,25 @@ if __name__ == '__main__':
         client_name = _client_question();
         create_client(client_name)
         list_clients()
+
     elif command == 'D':
         client_name = _client_question()
         delete_client(client_name)
+
     elif command == 'U':
         client_name = _client_question()
         new_name = input('What its the new client name? ')
         update_client(client_name,new_name)
+
     elif command == 'S':
         client_name = _client_question()
         found = search_client(client_name)
+
         if found:
             print('The client is in the  clienr\'s list')
         else:
             print('Client {} not found'.format(client_name))
+            
     else:
         print('Invalid command')
  
