@@ -3,7 +3,7 @@ import sys
 
 
 #Listado
-clients = 'pablo, gerardo, '
+clients = ['pablo','gerardo']
 
 
 #Create function
@@ -11,8 +11,7 @@ def create_client(client_name):
     global clients
     
     if client_name not in clients:
-        clients += client_name
-        _add_coma()
+        clients.append(client_name)
     else:
         print('Client already in the client\'s list')
 
@@ -22,7 +21,8 @@ def update_client(old_name, new_name):
     global clients
 
     if old_name in clients:
-        clients = clients.replace(old_name+',', new_name+',' )
+        name_index = clients.index(old_name)
+        clients[name_index] = new_name
         list_clients()
     else:
         _not_register()
@@ -34,7 +34,7 @@ def delete_client(client_name):
     global clients
 
     if client_name in clients:
-        clients = clients.replace(client_name+',','')
+        clients.remove(client_name)
         list_clients()
     else:
         _not_register()
@@ -44,9 +44,9 @@ def delete_client(client_name):
 #Search function
 def search_client(client_name):
     global clients
-    clients_list = clients.split(',')
+    
 
-    for client in clients_list:
+    for client in clients:
         if client != client_name:
             continue
         else:
@@ -56,7 +56,9 @@ def search_client(client_name):
 def list_clients():
     global clients
     
-    print(clients)
+    for idx, client in enumerate(clients):
+        print('{}:{}'.format(idx, client))
+
 
 #Command list
 def print_welcome():
@@ -89,13 +91,6 @@ def _not_register():
     print('Client its not in client\'s list')
 
 
-def _add_coma():
-    global clients
-    
-    clients += ','
-
-
-
 #Start point of the code
 if __name__ == '__main__':
     print_welcome()
@@ -121,10 +116,10 @@ if __name__ == '__main__':
         found = search_client(client_name)
 
         if found:
-            print('The client is in the  clienr\'s list')
+            print('The client is in the client\'s list')
         else:
             print('Client {} not found'.format(client_name))
-            
+        
     else:
         print('Invalid command')
  
